@@ -20,14 +20,23 @@ export class CacheService {
         }
     }
 
-    getCache(username: string): any | null {
+    getCache(username: string, ignoreExpiry: boolean = false): any | null {
         try {
-            const expiryTimeStr = localStorage.getItem(this.CACHE_EXPIRY_KEY_PREFIX + username);
-            if (!expiryTimeStr) return null;
+            let expiryTimeStr = localStorage.getItem(this.CACHE_EXPIRY_KEY_PREFIX + username);
+            let cacheDataStr = localStorage.getItem(this.CACHE_KEY_PREFIX + username);
+
+            if (!expiryTimeStr || !cacheDataStr) {
+                // Fallback to legacy v3 cache without a username prefix if v4 is missing
+                expiryTimeStr = localStorage.getItem('bgg_collection_cache_expiry_v3');
+                cacheDataStr = localStorage.getItem('bgg_collection_cache_v3');
+
+                if (!expiryTimeStr || !cacheDataStr) {
+                    return null;
+                }
+            }
 
             const expiryTime = parseInt(expiryTimeStr, 10);
-            if (new Date().getTime() > expiryTime) {
-                this.clearCache(username);
+            if (!ignoreExpiry && new Date().getTime() > expiryTime) {
                 return null; // Cache expired
             }
 

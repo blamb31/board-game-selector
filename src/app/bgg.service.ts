@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, forkJoin, map, of, tap} from 'rxjs';
+import {Observable, forkJoin, map, of, tap, catchError, throwError} from 'rxjs';
 import {XMLParser} from 'fast-xml-parser';
 
 export interface BoardGame {
@@ -63,6 +63,17 @@ export class BggService {
             }),
             tap(games => {
                 this.cacheService.setCache(username, games);
+            }),
+            catchError((error) => {
+                console.warn('API error occurred, attempting cache fallback:', error);
+                const cachedFallback = this.cacheService.getCache(username, true);
+                if (cachedFallback) {
+                    console.log('Successfully fell back to local cache.');
+                    return of(cachedFallback);
+                }
+                console.warn('Cache fallback failed: No local cache exists to fall back to.');
+                // If there's no cache, properly emit the error Observable down the chain
+                return throwError(() => error);
             })
         );
     }
