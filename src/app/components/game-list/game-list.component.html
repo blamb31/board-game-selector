@@ -1,0 +1,30 @@
+<div class="list-header">
+    <div class="header-actions">
+        <button class="btn-secondary" (click)="showSuggester = true" [disabled]="loading || games.length === 0">
+            Suggest Games
+        </button>
+        <button class="btn-primary" (click)="refreshGames()" [disabled]="loading || !hasUsername">
+            {{ loading ? 'Refreshing...' : 'Refresh Games' }}
+        </button>
+    </div>
+</div>
+
+<app-game-suggester *ngIf="showSuggester" [games]="games" (close)="showSuggester = false">
+</app-game-suggester>
+
+<div *ngIf="!hasUsername" class="empty-state">
+    <p style="text-align: center; margin-top: 2rem; color: #ced4da;">Please click the ⚙️ Settings button to enter your
+        BGG username to load your collection.</p>
+</div>
+
+<div *ngIf="hasUsername && loading && games.length === 0" class="loading">
+    Loading your games...
+</div>
+
+<div *ngIf="error" class="error">
+    {{ error }}
+</div>
+
+<div *ngIf="!loading && !error" class="game-grid">
+    <app-game-card *ngFor="let game of games" [game]="game"></app-game-card>
+</div>

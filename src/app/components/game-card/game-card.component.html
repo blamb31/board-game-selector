@@ -1,0 +1,30 @@
+<div class="game-card">
+    <div class="image-container">
+        <img *ngIf="game.thumbnail" [src]="game.thumbnail" [alt]="game.name + ' thumbnail'">
+        <div *ngIf="!game.thumbnail" class="no-image">No Image</div>
+
+        <div class="play-time-badge" *ngIf="game.playingTime">
+            ⏱️ {{ game.playingTime }}m
+        </div>
+        <div class="player-count-badge" *ngIf="game.minPlayers">
+            👥 {{ game.minPlayers }}{{ game.maxPlayers && game.maxPlayers !== game.minPlayers ? '-' + game.maxPlayers :
+            '' }}
+        </div>
+    </div>
+    <div class="game-info">
+        <h2>{{ game.name }}</h2>
+        <p *ngIf="game.yearPublished">Published: {{ game.yearPublished }}</p>
+
+        <div class="stats-container">
+            <div class="stat-badge total-plays" *ngIf="game.totalPlays !== undefined">
+                <span class="label">Plays:</span>
+                <span class="value">{{ game.totalPlays }}</span>
+            </div>
+
+            <div class="stat-badge last-play" *ngIf="game.lastPlay">
+                <span class="label">Last Play:</span>
+                <span class="value">{{ game.lastPlay | date:'shortDate' }}</span>
+            </div>
+        </div>
+    </div>
+</div>

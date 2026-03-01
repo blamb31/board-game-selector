@@ -1,0 +1,59 @@
+<div class="modal-backdrop" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <header>
+            <h2>Suggest a Game</h2>
+            <button class="close-btn" (click)="closeModal()">&times;</button>
+        </header>
+
+        <div class="form-container">
+            <div class="form-group">
+                <label for="players">Players:</label>
+                <input type="number" id="players" [(ngModel)]="players" min="1">
+            </div>
+
+            <div class="form-group">
+                <label for="timeRange">Time Available:</label>
+                <select id="timeRange" [(ngModel)]="timeRange">
+                    <option value="all">All</option>
+                    <option value="30">Less than 30 minutes</option>
+                    <option value="60">30 to 60 minutes</option>
+                    <option value="999">More than 60 minutes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="frequency">Filter by Plays:</label>
+                <select id="frequency" [(ngModel)]="frequency">
+                    <option value="all">All</option>
+                    <option value="infrequent">Games I don't play often</option>
+                    <option value="frequent">Games I play a lot</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" (click)="suggestGames()">Suggest 5 Games</button>
+        </div>
+
+        <div class="suggestions-container" id="suggestions-container" *ngIf="hasSuggested">
+            <h3 *ngIf="suggestedGames.length > 0">Your Recommendations:</h3>
+            <div class="suggestion-list" *ngIf="suggestedGames.length > 0">
+                <div class="suggestion-item" *ngFor="let game of suggestedGames">
+                    <img *ngIf="game.thumbnail" [src]="game.thumbnail" [alt]="game.name + ' thumbnail'">
+                    <div class="no-image" *ngIf="!game.thumbnail">No Image</div>
+                    <div class="info">
+                        <h4>{{ game.name }}</h4>
+                        <div class="badges">
+                            <span class="badge">👥 {{ game.minPlayers }}{{ game.maxPlayers && game.maxPlayers !==
+                                game.minPlayers ? '-' + game.maxPlayers : '' }}</span>
+                            <span class="badge">⏱️ {{ game.playingTime || game.maxPlaytime || '?' }}m</span>
+                            <span class="badge">🎲 {{ game.totalPlays }} plays</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-results" *ngIf="suggestedGames.length === 0">
+                No games match this criteria.
+            </div>
+        </div>
+    </div>
+</div>
