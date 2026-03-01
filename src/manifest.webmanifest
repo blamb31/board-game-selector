@@ -1,6 +1,6 @@
 {
   "name": "Board Game Selector",
-  "short_name": "BGG Selector",
+  "short_name": "BG Selector",
   "theme_color": "#3498db",
   "background_color": "#f8f9fa",
   "display": "standalone",
