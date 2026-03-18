@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, forkJoin, map, of, tap, catchError, throwError} from 'rxjs';
+import {Observable, forkJoin, map, of, tap, catchError, throwError, retry} from 'rxjs';
 import {XMLParser} from 'fast-xml-parser';
 
 export interface BoardGame {
@@ -51,7 +51,15 @@ export class BggService {
         const playsUrl = `https://boardgamegeek.com/xmlapi2/plays?username=${username}`;
 
         return forkJoin({
-            collectionXml: this.http.get(collectionUrl, {responseType: 'text'}),
+            collectionXml: this.http.get(collectionUrl, {responseType: 'text'}).pipe(
+                map(xml => {
+                    if (xml.includes('Please try again later for access')) {
+                        throw new Error('BGG_PROCESSING');
+                    }
+                    return xml;
+                }),
+                retry({count: 5, delay: 3000})
+            ),
             playsXml: this.http.get(playsUrl, {responseType: 'text'})
         }).pipe(
             map(({collectionXml, playsXml}) => {
