@@ -13,6 +13,7 @@ export class GameSuggesterComponent {
   players = 4;
   timeRange = 'all'; // 'all', '30', '60', '999'
   frequency = 'all';
+  numSuggestions = 5;
 
   suggestedGames: BoardGame[] = [];
   hasSuggested = false;
@@ -61,7 +62,7 @@ export class GameSuggesterComponent {
       [ targetPool[ i ], targetPool[ j ] ] = [ targetPool[ j ], targetPool[ i ] ];
     }
 
-    this.suggestedGames = targetPool.slice(0, 5);
+    this.suggestedGames = targetPool.slice(0, this.numSuggestions);
 
     setTimeout(() => {
       const container = document.getElementById('suggestions-container');
