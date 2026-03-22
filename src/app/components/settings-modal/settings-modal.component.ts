@@ -9,15 +9,18 @@ import {SettingsService} from '../../services/settings.service';
 export class SettingsModalComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   username: string = '';
+  password: string = '';
 
   constructor(private settingsService: SettingsService) { }
 
   ngOnInit(): void {
     this.username = this.settingsService.username;
+    this.password = this.settingsService.password;
   }
 
   saveSettings() {
     this.settingsService.setUsername(this.username);
+    this.settingsService.setPassword(this.password);
     this.close.emit();
   }
 

@@ -26,5 +26,14 @@
                 <span class="value">{{ game.lastPlay | date:'shortDate' }}</span>
             </div>
         </div>
+
+        <div class="log-play-container" style="margin-top: 1rem; border-top: 1px solid #eaeaea; padding-top: 1rem;">
+            <button class="btn-secondary" style="width: 100%; padding: 0.5rem; font-size: 0.9rem; border-radius: 6px; cursor: pointer; border: 1px solid #ddd; background: #fff;" 
+                (click)="logPlayToday()" [disabled]="isLogging">
+                {{ isLogging ? 'Logging...' : 'Log a play today 🎲' }}
+            </button>
+            <div *ngIf="logMessage" style="color: #2ecc71; font-size: 0.8rem; text-align: center; margin-top: 0.5rem;">{{ logMessage }}</div>
+            <div *ngIf="logError" style="color: #e74c3c; font-size: 0.8rem; text-align: center; margin-top: 0.5rem;">{{ logError }}</div>
+        </div>
     </div>
 </div>

@@ -147,4 +147,20 @@ export class BggService {
 
         return mergedPlays.filter(game => !game.isExpansion);
     }
+
+    logPlay(gameId: string, dateStr: string): Observable<any> {
+        const username = this.settingsService.username;
+        const password = this.settingsService.password;
+        
+        if (!username || !password) {
+            return throwError(() => new Error('BGG Username and Password are required to log plays.'));
+        }
+
+        return this.http.post('/.netlify/functions/log-play', {
+            username,
+            password,
+            gameId,
+            date: dateStr
+        });
+    }
 }
