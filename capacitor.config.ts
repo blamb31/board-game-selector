@@ -6,6 +6,12 @@ const config: CapacitorConfig = {
   webDir: 'dist/board-game-selector',
   server: {
     androidScheme: 'https'
+  },
+  plugins: {
+    StatusBar: {
+      overlaysWebView: false,
+      backgroundColor: '#2c3e50'
+    }
   }
 };
 

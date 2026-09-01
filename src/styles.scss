@@ -12,4 +12,5 @@
 
 ion-content {
   --background: transparent;
+  --padding-top: var(--ion-safe-area-top, 0px);
 }
