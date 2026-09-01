@@ -1,0 +1,7 @@
+{
+  "name": "board-game-selector",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

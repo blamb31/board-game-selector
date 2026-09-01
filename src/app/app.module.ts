@@ -10,6 +10,7 @@ import {GameListComponent} from './components/game-list/game-list.component';
 import {GameCardComponent} from './components/game-card/game-card.component';
 import {GameSuggesterComponent} from './components/game-suggester/game-suggester.component';
 import { SettingsModalComponent } from './components/settings-modal/settings-modal.component';
+import { IonicModule } from '@ionic/angular';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 @NgModule({
@@ -25,6 +26,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    IonicModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
